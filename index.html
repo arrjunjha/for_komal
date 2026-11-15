@@ -1,0 +1,492 @@
+<title>Komal Ke Liye</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap">
+<style>
+/* Layout: one long scroll in a letter-width column. Hero with polaroid -> pyaar meter -> letter -> reasons -> promises -> gallery with lightbox -> photo puzzle -> proposal. */
+:root {
+  --bg: #fbf2f5;
+  --surface: #ffffff;
+  --ink: #2b1220;
+  --muted: #7a5a69;
+  --accent: #d6336c;
+  --accent-ink: #ffffff;
+  --gold: #e8962e;
+  --line: #ecd5de;
+  --display: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Bradley Hand", "Segoe Script", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a0d16; --surface: #28141f; --ink: #fbe9f0; --muted: #c79bb0;
+    --accent: #ff6f9f; --accent-ink: #2b0a18; --gold: #f5b25a; --line: #432134;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a0d16; --surface: #28141f; --ink: #fbe9f0; --muted: #c79bb0;
+  --accent: #ff6f9f; --accent-ink: #2b0a18; --gold: #f5b25a; --line: #432134;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+main { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 76px; padding-block: 40px 96px; position: relative; z-index: 1; }
+h1, h2 { font-family: var(--display); font-weight: 400; margin: 0; text-wrap: balance; line-height: 1.08; }
+h1 { font-size: clamp(3rem, 14vw, 5.6rem); }
+h2 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+p { margin: 0; }
+button { font-family: inherit; }
+.eyebrow { font-family: var(--hand); font-size: 1.5rem; color: var(--accent); font-weight: 700; letter-spacing: .01em; }
+.muted { color: var(--muted); }
+.hint { font-size: .9rem; }
+.btn { font: 700 1rem var(--body); border: 0; border-radius: 999px; padding: 13px 26px; cursor: pointer; background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+.btn:focus-visible, .tile:focus-visible, .thumb:focus-visible, .lb button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* hero */
+.hero { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); align-items: center; padding-top: 24px; }
+@media (min-width: 560px) { .hero { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); } }
+.hero-text { display: flex; flex-direction: column; gap: 18px; }
+.hero h1 em { color: var(--accent); font-style: italic; }
+.hero .lede { font-size: 1.12rem; max-width: 34ch; color: var(--muted); }
+.polaroid { margin: 0; background: var(--surface); padding: 12px 12px 8px; border: 1px solid var(--line); border-radius: 4px; transform: rotate(3deg); box-shadow: 0 18px 36px -20px rgba(214,51,108,.55); width: 100%; max-width: 300px; justify-self: center; cursor: pointer; transition: transform .25s ease; }
+.polaroid:hover { transform: rotate(-1deg) scale(1.02); }
+.polaroid img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 60% 40%; border-radius: 2px; }
+.polaroid figcaption { font-family: var(--hand); font-size: 1.5rem; text-align: center; padding-top: 6px; }
+.counter { display: flex; flex-wrap: wrap; gap: 10px; }
+.counter div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 16px; min-width: 76px; }
+.counter b { display: block; font-family: var(--display); font-size: 1.8rem; font-weight: 400; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.counter span { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* pyaar meter */
+.meter { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; }
+.meter-num { font-family: var(--display); font-size: 3rem; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 3ch; }
+.meter-text { display: flex; flex-direction: column; gap: 2px; flex: 1 1 200px; min-width: 0; }
+.meter-text strong { font-family: var(--hand); font-size: 1.5rem; font-weight: 700; }
+.bar { height: 8px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s ease; }
+
+/* letter */
+.letter { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 32px 26px; display: flex; flex-direction: column; gap: 14px; transform: rotate(-.6deg); box-shadow: 0 12px 30px -18px rgba(214,51,108,.35); }
+.letter p.hand { font-family: var(--hand); font-size: 1.55rem; line-height: 1.45; }
+.sign { font-family: var(--hand); font-size: 1.9rem; color: var(--accent); align-self: flex-end; }
+
+/* reasons / promises */
+.block { display: flex; flex-direction: column; gap: 22px; }
+.reasons { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.reason { all: unset; box-sizing: border-box; cursor: pointer; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 6px; min-width: 0; min-height: 118px; transition: border-color .15s ease, transform .15s ease; }
+.reason:hover { border-color: var(--accent); transform: translateY(-2px); }
+.reason:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.reason strong { font-family: var(--display); font-weight: 400; font-size: 1.25rem; }
+.reason .more { color: var(--muted); }
+.reason .tap { font-family: var(--hand); font-size: 1.2rem; color: var(--accent); }
+.reason[aria-expanded="true"] .tap { display: none; }
+.reason .more[hidden] { display: none; }
+.promises { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.promises li { padding: 18px 0; border-top: 1px solid var(--line); font-size: 1.1rem; display: flex; gap: 14px; align-items: baseline; }
+.promises li:last-child { border-bottom: 1px solid var(--line); }
+.promises li::before { content: "\2665"; color: var(--accent); flex: none; }
+
+/* gallery */
+.gallery { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 560px) { .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.thumb { all: unset; box-sizing: border-box; cursor: pointer; position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--line); min-width: 0; }
+.thumb.wide { grid-column: span 2; aspect-ratio: 8 / 5; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+.thumb:hover img { transform: scale(1.05); }
+.thumb span { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 10px 8px; font-family: var(--hand); font-size: 1.3rem; line-height: 1.1; color: #fff; background: linear-gradient(transparent, rgba(20,6,14,.72)); }
+
+/* lightbox */
+.lb { position: fixed; inset: 0; z-index: 20; background: rgba(15,5,11,.92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lb[hidden] { display: none; }
+.lb img { max-width: 100%; max-height: calc(100% - 70px); object-fit: contain; border-radius: 6px; }
+.lb .cap { font-family: var(--hand); font-size: 1.6rem; color: #fff; text-align: center; }
+.lb button { position: absolute; background: rgba(255,255,255,.14); color: #fff; border: 0; width: 46px; height: 46px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; }
+.lb .x { top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); }
+.lb .prev { left: max(10px, env(safe-area-inset-left, 0px)); top: 50%; }
+.lb .next { right: max(10px, env(safe-area-inset-right, 0px)); top: 50%; }
+
+/* puzzle */
+.puzzle { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.board-wrap { width: min(100%, 380px); position: relative; }
+.board { display: grid; gap: 3px; width: 100%; background: var(--line); border-radius: 10px; padding: 3px; touch-action: manipulation; }
+.tile { all: unset; box-sizing: border-box; cursor: pointer; border-radius: 6px; background-repeat: no-repeat; min-width: 0; transition: transform .12s ease; }
+.tile:active { transform: scale(.96); }
+.tile.blank { cursor: default; background: var(--bg); border: 1.5px dashed var(--line); }
+.board.solved { gap: 0; padding: 0; }
+.board.solved .tile { border-radius: 0; }
+.peek { position: absolute; inset: 0; border-radius: 10px; background-size: cover; background-position: center; border: 3px solid var(--accent); opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+.peek.on { opacity: 1; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.stat { font-variant-numeric: tabular-nums; color: var(--muted); }
+.seg { display: inline-flex; border: 1.5px solid var(--accent); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--accent); font: 700 .9rem var(--body); padding: 9px 16px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.win { display: none; background: var(--surface); border: 1px solid var(--accent); border-radius: 14px; padding: 18px 20px; max-width: 380px; }
+.win.on { display: block; }
+.win p.hand { font-family: var(--hand); font-size: 1.5rem; line-height: 1.35; }
+
+/* proposal */
+.ask { background: var(--accent); color: var(--accent-ink); border-radius: 20px; padding: 44px 24px 36px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; position: relative; overflow: hidden; }
+.ask h2 { font-size: clamp(2.2rem, 9vw, 3.6rem); }
+.ask .eyebrow { color: var(--accent-ink); opacity: .85; }
+.arena { position: relative; width: 100%; min-height: 150px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px; }
+.ask .btn { padding: 15px 34px; font-size: 1.05rem; }
+.ask .btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.yes { background: var(--accent-ink); color: var(--accent); }
+.no { background: transparent; color: var(--accent-ink); border: 2px solid currentColor; transition: transform .18s ease; }
+.yes-msg { display: none; flex-direction: column; gap: 10px; }
+.ask.done .arena, .ask.done .q { display: none; }
+.ask.done .yes-msg { display: flex; }
+.yes-msg p.hand { font-family: var(--hand); font-size: 1.7rem; line-height: 1.35; }
+canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
+
+/* ambient hearts */
+.float { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.float i { position: absolute; bottom: -40px; color: var(--accent); opacity: .16; font-style: normal; animation: rise linear infinite; }
+@keyframes rise { to { transform: translateY(-115vh) rotate(25deg); } }
+@media (prefers-reduced-motion: reduce) { .float { display: none; } .no, .tile, .thumb img, .polaroid, .reason { transition: none; } }
+</style>
+
+<div class="float" aria-hidden="true" id="float"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="hero-text">
+      <p class="eyebrow">sirf tumhare liye</p>
+      <h1><em id="her">Komal</em>,<br>ek chhoti si baat.</h1>
+      <p class="lede">Maine yeh page banaya hai, kyunki kuch cheezein bolne se zyada dikhane wali hoti hain.</p>
+      <div class="counter" aria-label="Saath ka time">
+        <div><b id="cd">0</b><span>din</span></div>
+        <div><b id="ch">0</b><span>ghante</span></div>
+        <div><b id="cm">0</b><span>minute</span></div>
+      </div>
+      <p class="muted hint">Photo par tap karo, dil udenge.</p>
+    </div>
+    <figure class="polaroid" id="polaroid">
+      <img src="p7.jpg" alt="Hum dono, 6 March 2024">
+      <figcaption>6 March 2024</figcaption>
+    </figure>
+  </section>
+
+  <section class="meter">
+    <div class="meter-num" id="mnum" aria-live="polite">0</div>
+    <div class="meter-text">
+      <strong id="mmsg">Kitna pyaar hai? Tap karke dekho.</strong>
+      <div class="bar" aria-hidden="true"><i id="mbar"></i></div>
+    </div>
+    <button class="btn" id="mbtn" type="button">Pyaar bhejo</button>
+  </section>
+
+  <section class="letter">
+    <p class="eyebrow">ek chitthi</p>
+    <p class="hand">Babu, I love you. Mujhe tere se dur nahi hona hai.</p>
+    <p class="hand">Tu bahut jaldi gussa ho jaati hai, aur phir mujhe darr lagta hai ki kahin tu mujhe chhod na de.</p>
+    <p class="hand">Par main har koshish karunga ki tu khush rahe aur hasti rahe. Tera hasna mujhe bahut accha lagta hai.</p>
+    <span class="sign">- <span id="him">Arjun</span></span>
+  </section>
+
+  <section class="block">
+    <h2>Tere saath mujhe kya accha lagta hai</h2>
+    <p class="muted hint">Har dabbe par tap karo.</p>
+    <div class="reasons">
+      <button class="reason" type="button" aria-expanded="false"><strong>Tere saath ghumna</strong><span class="tap">tap karo</span><span class="more" hidden>Jagah koi bhi ho, tu saath ho toh mazaa aata hai.</span></button>
+      <button class="reason" type="button" aria-expanded="false"><strong>Tere saath khana</strong><span class="tap">tap karo</span><span class="more" hidden>Man karta hai ki khao, piyo, saath raho.</span></button>
+      <button class="reason" type="button" aria-expanded="false"><strong>Teri hansi</strong><span class="tap">tap karo</span><span class="more" hidden>Poore din ki thakaan utar jaati hai.</span></button>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Meri taraf se promises</h2>
+    <ul class="promises">
+      <li>Main kabhi effort daalna band nahi karunga.</li>
+      <li>Tu kabhi bhi gussa ho jaaye, main hamesha manaunga.</li>
+      <li>Har crowd mein tera haath pakde rakhunga.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Hamare kuch pal</h2>
+    <p class="muted hint">Kisi bhi photo par tap karke bada dekho.</p>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section class="block puzzle">
+    <h2>Ek photo bikhar gayi hai</h2>
+    <p class="muted">Tiles khiska kar photo jodo. Jab ho jaye, ek chhota sa message milega.</p>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Level">
+        <button type="button" id="lv3" aria-pressed="true">Aasaan</button>
+        <button type="button" id="lv4" aria-pressed="false">Mushkil</button>
+      </div>
+      <button class="btn ghost" id="shuffle" type="button">Dobara mix</button>
+      <button class="btn ghost" id="peek" type="button" aria-pressed="false">Asli photo</button>
+    </div>
+    <div class="board-wrap">
+      <div class="board" id="board" role="group" aria-label="Photo puzzle"></div>
+      <div class="peek" id="peekimg"></div>
+    </div>
+    <p class="stat" id="stat">Chaal: 0</p>
+    <div class="win" id="win">
+      <p class="hand">Tune jod di. Bilkul waise, jaise tune meri zindagi jodi hai.</p>
+    </div>
+  </section>
+
+  <section class="ask" id="ask">
+    <p class="eyebrow">aakhri sawaal</p>
+    <h2 class="q">Will you marry me?</h2>
+    <div class="arena" id="arena">
+      <button class="btn yes" id="yes" type="button">Haan</button>
+      <button class="btn no" id="no" type="button">Nahi</button>
+    </div>
+    <div class="yes-msg">
+      <h2>Tune haan bola!</h2>
+      <p class="hand">Yeh poori life karna hai yaar. Tere saath khana, ghumna, hasna. Sab kuch.</p>
+      <p class="hand">I love you, <span id="her2">Komal</span>.</p>
+    </div>
+  </section>
+</main>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo">
+  <button class="x" id="lbx" type="button" aria-label="Band karo">&times;</button>
+  <button class="prev" id="lbp" type="button" aria-label="Pichli photo">&#8249;</button>
+  <img id="lbimg" alt="">
+  <div class="cap" id="lbcap"></div>
+  <button class="next" id="lbn" type="button" aria-label="Agli photo">&#8250;</button>
+</div>
+
+<script>
+(function () {
+  var CONFIG = {
+    her: "Komal",
+    him: "Arjun",
+    start: "2024-01-01T00:00:00",
+    photos: [
+      { src: "p1.jpg", cap: "Tere saath khada", wide: false },
+      { src: "p2.jpg", cap: "Tere bahut kareeb", wide: false },
+      { src: "p3.jpg", cap: "Mall wali date", wide: false },
+      { src: "p4.jpg", cap: "Holi ke rang", wide: false },
+      { src: "p5.jpg", cap: "Garden wali selfie", wide: true },
+      { src: "p6.jpg", cap: "Chhupke se pyaar", wide: true },
+      { src: "p7.jpg", cap: "6 March 2024", wide: true },
+      { src: "p8.jpg", cap: "Lift wali selfie", wide: false }
+    ],
+    puzzle: { src: "p1.jpg", w: 718, h: 947 }
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("her").textContent = CONFIG.her; $("her2").textContent = CONFIG.her; $("him").textContent = CONFIG.him;
+
+  /* counter */
+  function tick() {
+    var ms = Math.max(0, Date.now() - new Date(CONFIG.start).getTime());
+    $("cd").textContent = Math.floor(ms / 86400000).toLocaleString();
+    $("ch").textContent = Math.floor(ms / 3600000) % 24;
+    $("cm").textContent = Math.floor(ms / 60000) % 60;
+  }
+  tick(); setInterval(tick, 30000);
+
+  /* ambient hearts */
+  var fl = $("float");
+  for (var i = 0; i < 14; i++) {
+    var h = document.createElement("i"); h.textContent = "♥";
+    h.style.left = (Math.random() * 100) + "%";
+    h.style.fontSize = (14 + Math.random() * 26) + "px";
+    h.style.animationDuration = (14 + Math.random() * 16) + "s";
+    h.style.animationDelay = (-Math.random() * 20) + "s";
+    fl.appendChild(h);
+  }
+
+  /* heart particles */
+  var cv = $("fx"), ctx = cv.getContext("2d"), parts = [], raf = 0;
+  function size() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+  size(); addEventListener("resize", size);
+  var colors = ["#ff6f9f", "#d6336c", "#f5b25a", "#ffffff"];
+  function burst(x, y, n, power) {
+    if (reduce) return;
+    for (var k = 0; k < n; k++) {
+      parts.push({ x: x, y: y, vx: (Math.random() - .5) * power, vy: -Math.random() * power - 3, s: 12 + Math.random() * 16, c: colors[k % 4], life: 90 + Math.random() * 60 });
+    }
+    if (!raf) raf = requestAnimationFrame(loop);
+  }
+  function loop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(function (p) { return p.life > 0; });
+    parts.forEach(function (p) {
+      p.vy += .28; p.x += p.vx; p.y += p.vy; p.life--;
+      ctx.globalAlpha = Math.min(1, p.life / 40); ctx.fillStyle = p.c;
+      ctx.font = (p.s * devicePixelRatio) + "px sans-serif";
+      ctx.fillText("♥", p.x * devicePixelRatio, p.y * devicePixelRatio);
+    });
+    raf = parts.length ? requestAnimationFrame(loop) : 0;
+  }
+  $("hero").addEventListener("pointerdown", function (e) {
+    if (e.target.closest("button")) return;
+    burst(e.clientX, e.clientY, 14, 8);
+  });
+
+  /* pyaar meter */
+  var love = 0, mnum = $("mnum"), mmsg = $("mmsg"), mbar = $("mbar");
+  var tiers = [
+    [0, "Kitna pyaar hai? Tap karke dekho."],
+    [1, "Bas shuru hua hai."],
+    [10, "Ab toh aadat ho gayi."],
+    [25, "Itna kaafi nahi hai, aur bhejta hu."],
+    [50, "Gintee band, ab mehsoos karo."],
+    [100, "Infinity ke paas pahunch gaye."]
+  ];
+  $("mbtn").addEventListener("click", function (e) {
+    love++; mnum.textContent = love;
+    var msg = tiers[0][1]; tiers.forEach(function (t) { if (love >= t[0]) msg = t[1]; });
+    mmsg.textContent = msg;
+    mbar.style.width = Math.min(100, love) + "%";
+    var r = e.currentTarget.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top, 8, 7);
+  });
+
+  /* reasons */
+  Array.prototype.forEach.call(document.querySelectorAll(".reason"), function (b) {
+    b.addEventListener("click", function () {
+      var open = b.getAttribute("aria-expanded") === "true";
+      b.setAttribute("aria-expanded", String(!open));
+      b.querySelector(".more").hidden = open;
+      if (!open) { var r = b.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + 20, 6, 6); }
+    });
+  });
+
+  /* gallery + lightbox */
+  var gal = $("gallery"), lb = $("lb"), lbimg = $("lbimg"), lbcap = $("lbcap"), cur = 0, lastFocus = null;
+  CONFIG.photos.forEach(function (p, i) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "thumb" + (p.wide ? " wide" : "");
+    b.setAttribute("aria-label", "Bada dekho: " + p.cap);
+    var im = document.createElement("img"); im.src = p.src; im.alt = p.cap; im.loading = "lazy";
+    var s = document.createElement("span"); s.textContent = p.cap;
+    b.appendChild(im); b.appendChild(s);
+    b.addEventListener("click", function () { lastFocus = b; show(i); lb.hidden = false; $("lbx").focus(); });
+    gal.appendChild(b);
+  });
+  function show(i) {
+    var n = CONFIG.photos.length; cur = (i + n) % n;
+    lbimg.src = CONFIG.photos[cur].src; lbimg.alt = CONFIG.photos[cur].cap; lbcap.textContent = CONFIG.photos[cur].cap;
+  }
+  function closeLb() { lb.hidden = true; if (lastFocus) lastFocus.focus(); }
+  $("lbx").addEventListener("click", closeLb);
+  $("lbp").addEventListener("click", function () { show(cur - 1); });
+  $("lbn").addEventListener("click", function () { show(cur + 1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+  addEventListener("keydown", function (e) {
+    if (lb.hidden) return;
+    if (e.key === "Escape") closeLb();
+    if (e.key === "ArrowLeft") show(cur - 1);
+    if (e.key === "ArrowRight") show(cur + 1);
+  });
+  var sx = null;
+  lb.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  });
+
+  /* sliding photo puzzle */
+  var P = CONFIG.puzzle, board = $("board"), stat = $("stat"), win = $("win");
+  var cols = 3, rows = 3, tiles = [], moves = 0, solved = false;
+  var peekimg = $("peekimg");
+  peekimg.style.backgroundImage = "url(" + P.src + ")";
+  function isSolved() { for (var i = 0; i < tiles.length; i++) if (tiles[i] !== i) return false; return true; }
+  function neighbors(bi) {
+    var r = Math.floor(bi / cols), c = bi % cols, out = [];
+    if (r > 0) out.push(bi - cols); if (r < rows - 1) out.push(bi + cols);
+    if (c > 0) out.push(bi - 1); if (c < cols - 1) out.push(bi + 1);
+    return out;
+  }
+  function render() {
+    board.innerHTML = "";
+    board.style.gridTemplateColumns = "repeat(" + cols + ", minmax(0, 1fr))";
+    board.style.aspectRatio = P.w + " / " + P.h;
+    board.classList.toggle("solved", solved);
+    var total = cols * rows;
+    tiles.forEach(function (v, pos) {
+      var t = document.createElement("button"); t.type = "button"; t.className = "tile";
+      if (v === total - 1 && !solved) {
+        t.classList.add("blank"); t.tabIndex = -1; t.setAttribute("aria-label", "Khaali jagah");
+      } else {
+        var c = v % cols, r = Math.floor(v / cols);
+        t.style.backgroundImage = "url(" + P.src + ")";
+        t.style.backgroundSize = (cols * 100) + "% " + (rows * 100) + "%";
+        t.style.backgroundPosition = (c / (cols - 1) * 100) + "% " + (r / (rows - 1) * 100) + "%";
+        t.setAttribute("aria-label", "Tile " + (v + 1));
+        t.addEventListener("click", function () { move(pos); });
+      }
+      board.appendChild(t);
+    });
+    stat.textContent = "Chaal: " + moves;
+  }
+  function move(pos) {
+    if (solved) return;
+    var bi = tiles.indexOf(cols * rows - 1);
+    if (neighbors(bi).indexOf(pos) === -1) return;
+    tiles[bi] = tiles[pos]; tiles[pos] = cols * rows - 1; moves++;
+    if (isSolved()) {
+      solved = true; win.classList.add("on");
+      var r = board.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, 120, 13);
+    }
+    render();
+  }
+  function shuffle() {
+    var total = cols * rows; tiles = []; for (var i = 0; i < total; i++) tiles.push(i);
+    var bi = total - 1, prev = -1;
+    for (var k = 0; k < 160 || isSolved(); k++) {
+      var opts = neighbors(bi).filter(function (n) { return n !== prev; });
+      var nx = opts[Math.floor(Math.random() * opts.length)];
+      tiles[bi] = tiles[nx]; tiles[nx] = total - 1; prev = bi; bi = nx;
+    }
+    moves = 0; solved = false; win.classList.remove("on"); render();
+  }
+  board.addEventListener("keydown", function (e) {
+    var map = { ArrowUp: cols, ArrowDown: -cols, ArrowLeft: 1, ArrowRight: -1 };
+    if (!(e.key in map) || solved) return;
+    var bi = tiles.indexOf(cols * rows - 1), pos = bi + map[e.key];
+    if (neighbors(bi).indexOf(pos) !== -1) { e.preventDefault(); move(pos); }
+  });
+  function level(c, r) {
+    cols = c; rows = r;
+    $("lv3").setAttribute("aria-pressed", String(c === 3)); $("lv4").setAttribute("aria-pressed", String(c === 4));
+    shuffle();
+  }
+  $("lv3").addEventListener("click", function () { level(3, 3); });
+  $("lv4").addEventListener("click", function () { level(3, 4); });
+  $("shuffle").addEventListener("click", shuffle);
+  $("peek").addEventListener("click", function () {
+    var on = $("peek").getAttribute("aria-pressed") !== "true";
+    $("peek").setAttribute("aria-pressed", String(on)); peekimg.classList.toggle("on", on);
+    $("peek").textContent = on ? "Chhupao" : "Asli photo";
+  });
+  shuffle();
+
+  /* dodging No button + yes */
+  var no = $("no"), arena = $("arena"), tries = 0;
+  var labels = ["Nahi", "Pakka?", "Soch le", "Please?", "Arre yaar", "Chal na"];
+  function dodge() {
+    tries++;
+    no.textContent = labels[Math.min(tries, labels.length - 1)];
+    var a = arena.getBoundingClientRect(), b = no.getBoundingClientRect();
+    var maxX = Math.max(0, a.width - b.width), maxY = Math.max(0, a.height - b.height);
+    var dx = (Math.random() * maxX) - (b.left - a.left), dy = (Math.random() * maxY) - (b.top - a.top);
+    no.style.transform = "translate(" + dx.toFixed(0) + "px," + dy.toFixed(0) + "px)";
+  }
+  no.addEventListener("pointerenter", dodge);
+  no.addEventListener("click", function (e) { e.preventDefault(); dodge(); });
+  $("yes").addEventListener("click", function () {
+    $("ask").classList.add("done");
+    burst(innerWidth / 2, innerHeight * .55, 140, 14);
+  });
+})();
+</script>
